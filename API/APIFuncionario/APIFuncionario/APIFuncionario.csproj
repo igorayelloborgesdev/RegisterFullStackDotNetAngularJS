@@ -109,10 +109,12 @@
     </Compile>
     <Compile Include="IModels\ISetor.cs" />
     <Compile Include="IRepository\ISetorRepository.cs" />
+    <Compile Include="IResponse\IResponseObject.cs" />
     <Compile Include="IService\ISetorService.cs" />
     <Compile Include="Models\Setor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\SetorRepository.cs" />
+    <Compile Include="Response\ResponseObject.cs" />
     <Compile Include="Service\SetorService.cs" />
   </ItemGroup>
   <ItemGroup>

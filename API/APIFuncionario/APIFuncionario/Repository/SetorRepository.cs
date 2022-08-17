@@ -1,6 +1,7 @@
 ﻿using APIFuncionario.Config;
 using APIFuncionario.IModels;
 using APIFuncionario.IRepository;
+using APIFuncionario.Models;
 using Dapper;
 using System;
 using System.Collections.Generic;
@@ -15,16 +16,16 @@ namespace APIFuncionario.Repository
     public class SetorRepository : ISetorRepository
     {
         string connStr = AppConfig.GetConnStr();
-        public async Task<IEnumerable<T>> ConsultarSetores<T>()
+        public async Task<IEnumerable<Setor>> ConsultarSetores()
         {
-            T setores;
+            IEnumerable<Setor> setores;
             using (var db = new SqlConnection(connStr))
             {
                 await db.OpenAsync();
                 var query = "SELECT ID, DESCRICAO FROM TB_SETOR_REF";
-                setores = (T)await db.QueryAsync<T>(query);                
+                setores = await db.QueryAsync<Setor>(query);                
             }
-            return (IEnumerable<T>)Convert.ChangeType(setores, typeof(T));
+            return setores;
         }
     }
 }

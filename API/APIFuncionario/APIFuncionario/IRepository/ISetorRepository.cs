@@ -1,4 +1,5 @@
-﻿using System;
+﻿using APIFuncionario.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace APIFuncionario.IRepository
 {
     public interface ISetorRepository
     {
-         Task<IEnumerable<T>> ConsultarSetores<T>();
+         Task<IEnumerable<Setor>> ConsultarSetores();
     }
 }

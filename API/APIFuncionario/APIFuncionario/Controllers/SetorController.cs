@@ -1,12 +1,14 @@
 ﻿using APIFuncionario.IModels;
 using APIFuncionario.IService;
 using APIFuncionario.Models;
+using APIFuncionario.Response;
 using APIFuncionario.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace APIFuncionario.Controllers
@@ -28,9 +30,9 @@ namespace APIFuncionario.Controllers
             GetInstance();
         }
 
-        public IEnumerable<ISetor> GetAllSetor()
+        public async Task<ResponseObject<Setor>> GetAllSetorAsync()
         {            
-            return (IEnumerable<ISetor>)_instance.ConsultarSetores<IEnumerable<ISetor>>();
+            return await _instance.ConsultarSetores();
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using APIFuncionario.IModels;
 using APIFuncionario.IRepository;
 using APIFuncionario.IService;
+using APIFuncionario.Models;
 using APIFuncionario.Repository;
+using APIFuncionario.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +15,7 @@ namespace APIFuncionario.Service
     public class SetorService : ISetorService
     {
         private static ISetorRepository _instance;
+        private ResponseObject<Setor> responseObject = new ResponseObject<Setor>();
         public static ISetorRepository GetInstance()
         {
             if (_instance == null)
@@ -27,15 +30,16 @@ namespace APIFuncionario.Service
             GetInstance();
         }
 
-        public async Task<IEnumerable<T>> ConsultarSetores<T>() 
+        public async Task<ResponseObject<Setor>> ConsultarSetores() 
         {
             try
             {
-                return await _instance.ConsultarSetores<T>();
+                IEnumerable<Setor> setorList = await _instance.ConsultarSetores();                
+                return responseObject.SetSuccess(true).SetResponseObjList(setorList).Build();
             }
             catch(Exception ex)
             {
-                return default(IEnumerable<T>);
+                return responseObject.SetSuccess(false).SetMessage("Erro ao consultar setores. " + ex.Message).Build();
             }
             
         }
