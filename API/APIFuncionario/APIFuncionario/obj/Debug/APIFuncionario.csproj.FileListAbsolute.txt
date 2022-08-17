@@ -72,4 +72,3 @@ D:\IGOR\IgorAyelloBorges\PROJETOS\RegisterFullStackDotNetAngularJS\API\APIFuncio
 D:\IGOR\IgorAyelloBorges\PROJETOS\RegisterFullStackDotNetAngularJS\API\APIFuncionario\APIFuncionario\bin\Oracle.ManagedDataAccess.dll
 D:\IGOR\IgorAyelloBorges\PROJETOS\RegisterFullStackDotNetAngularJS\API\APIFuncionario\APIFuncionario\bin\Slapper.dll
 D:\IGOR\IgorAyelloBorges\PROJETOS\RegisterFullStackDotNetAngularJS\API\APIFuncionario\APIFuncionario\bin\Dapper.xml
-D:\IGOR\IgorAyelloBorges\PROJETOS\RegisterFullStackDotNetAngularJS\API\APIFuncionario\APIFuncionario\obj\Debug\APIFuncionario.csproj.AssemblyReference.cache
