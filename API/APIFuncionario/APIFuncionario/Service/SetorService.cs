@@ -23,7 +23,7 @@ namespace APIFuncionario.Service
                 _instance = new SetorRepository();
             }
             return _instance;
-        }
+        }        
 
         public SetorService()
         {
@@ -33,8 +33,8 @@ namespace APIFuncionario.Service
         public async Task<ResponseObject<Setor>> ConsultarSetores() 
         {
             try
-            {
-                IEnumerable<Setor> setorList = await _instance.ConsultarSetores();                
+            {                
+                IEnumerable<Setor> setorList = await ConsultarSetoresRepository();
                 return responseObject.SetSuccess(true).SetResponseObjList(setorList).Build();
             }
             catch(Exception ex)
@@ -43,5 +43,11 @@ namespace APIFuncionario.Service
             }
             
         }
+
+        public async Task<IEnumerable<Setor>> ConsultarSetoresRepository()
+        {
+            return await _instance.ConsultarSetores();
+        }
+
     }
 }

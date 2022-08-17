@@ -1,4 +1,5 @@
 ﻿using APIFuncionario.IModels;
+using APIFuncionario.IRepository;
 using APIFuncionario.Models;
 using APIFuncionario.Response;
 using System;
@@ -12,5 +13,6 @@ namespace APIFuncionario.IService
     public interface ISetorService
     {
         Task<ResponseObject<Setor>> ConsultarSetores();
+        Task<IEnumerable<Setor>> ConsultarSetoresRepository();
     }
 }

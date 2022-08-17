@@ -25,15 +25,15 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net471"
+          "net472"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net471": {
-            "targetAlias": "net471",
+          "net472": {
+            "targetAlias": "net472",
             "projectReferences": {
               "D:\\IGOR\\IgorAyelloBorges\\PROJETOS\\RegisterFullStackDotNetAngularJS\\API\\APIFuncionario\\APIFuncionario\\APIFuncionario.csproj": {
                 "projectPath": "D:\\IGOR\\IgorAyelloBorges\\PROJETOS\\RegisterFullStackDotNetAngularJS\\API\\APIFuncionario\\APIFuncionario\\APIFuncionario.csproj"
@@ -48,8 +48,8 @@
         }
       },
       "frameworks": {
-        "net471": {
-          "targetAlias": "net471",
+        "net472": {
+          "targetAlias": "net472",
           "dependencies": {
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
