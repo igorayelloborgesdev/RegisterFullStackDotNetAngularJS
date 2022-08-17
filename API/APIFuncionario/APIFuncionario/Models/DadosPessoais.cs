@@ -15,5 +15,8 @@ namespace APIFuncionario.Models
         public string CPF { get; set; }
         public string Data_Nascimento { get; set; }
         public int Ativo { get; set; }
+        public Cargo cargo { get; set; }
+        public Endereco endereco { get; set; }
+        public Telefones telefones { get; set; }
     }
 }

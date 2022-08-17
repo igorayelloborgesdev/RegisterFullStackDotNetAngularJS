@@ -1,4 +1,5 @@
 ﻿using APIFuncionario.IResponse;
+using APIFuncionario.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace APIFuncionario.Response
         public bool Success { get; set; }
         public T responseObj { get; set; }
         public IEnumerable<T> responseObjList { get; set; }
+        public IEnumerable<DadosPessoais> responseObjDadosPessoaisList { get; set; }
 
         public ResponseObject<T> SetMessage(string message)
         {
@@ -33,12 +35,18 @@ namespace APIFuncionario.Response
             this.responseObjList = responseObjList;
             return this;
         }
+        public ResponseObject<T> SetResponseObjDadosPessoaisList(IEnumerable<DadosPessoais> responseObjDadosPessoaisList)
+        {
+            this.responseObjDadosPessoaisList = responseObjDadosPessoaisList;
+            return this;
+        }
         public ResponseObject<T> Build()
         {
             this.Message = Message;
             this.Success = Success;
             this.responseObj = responseObj;
             this.responseObjList = responseObjList;
+            this.responseObjDadosPessoaisList = responseObjDadosPessoaisList;
             return this;
         }
     }

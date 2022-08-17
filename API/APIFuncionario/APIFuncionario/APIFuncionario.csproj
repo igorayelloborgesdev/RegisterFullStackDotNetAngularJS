@@ -103,18 +103,31 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Config\AppConfig.cs" />
+    <Compile Include="Controllers\CadastroController.cs" />
     <Compile Include="Controllers\SetorController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="IModels\ICargo.cs" />
+    <Compile Include="IModels\IDadosPessoais.cs" />
+    <Compile Include="IModels\IEndereco.cs" />
     <Compile Include="IModels\ISetor.cs" />
+    <Compile Include="IModels\ITelefones.cs" />
+    <Compile Include="IRepository\ICadastroRepository.cs" />
     <Compile Include="IRepository\ISetorRepository.cs" />
     <Compile Include="IResponse\IResponseObject.cs" />
+    <Compile Include="IService\ICadastroService.cs" />
     <Compile Include="IService\ISetorService.cs" />
+    <Compile Include="Models\Cargo.cs" />
+    <Compile Include="Models\DadosPessoais.cs" />
+    <Compile Include="Models\Endereco.cs" />
     <Compile Include="Models\Setor.cs" />
+    <Compile Include="Models\Telefones.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\CadastroRepository.cs" />
     <Compile Include="Repository\SetorRepository.cs" />
     <Compile Include="Response\ResponseObject.cs" />
+    <Compile Include="Service\CadastroService.cs" />
     <Compile Include="Service\SetorService.cs" />
   </ItemGroup>
   <ItemGroup>

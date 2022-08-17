@@ -14,5 +14,6 @@ namespace APIFuncionario.Models
         public string Data_Inicio { get; set; }
         public string Data_Encerramento { get; set; }
         public int setor { get; set; }
+        public Setor setorRef { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using APIFuncionario.IModels;
+using APIFuncionario.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,8 @@ namespace APIFuncionario.IRepository
         Task Cadastrar();
         Task Alterar();
         Task Excluir(string cpf);
-        Task<IEnumerable<IDadosPessoais>> ConsultarTodos(int paginacaoInicial);
-        Task<IDadosPessoais> ConsultarPorId(int id);
-        Task<IDadosPessoais> ConsultarPorCpf(string cpf);
+        Task<IEnumerable<DadosPessoais>> ConsultarTodos(int paginacaoInicial);
+        Task<DadosPessoais> ConsultarPorId(int id);
+        Task<DadosPessoais> ConsultarPorCpf(string cpf);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using APIFuncionario.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +13,6 @@ namespace APIFuncionario.IResponse
         bool Success { get; set; }
         T responseObj { get; set; }
         IEnumerable<T> responseObjList { get; set; }
+        IEnumerable<DadosPessoais> responseObjDadosPessoaisList { get; set; }
     }
 }

@@ -1,5 +1,8 @@
 ﻿using APIFuncionario.IModels;
+using APIFuncionario.IRepository;
 using APIFuncionario.IService;
+using APIFuncionario.Models;
+using APIFuncionario.Repository;
 using APIFuncionario.Response;
 using System;
 using System.Collections.Generic;
@@ -11,14 +14,37 @@ namespace APIFuncionario.Service
 {
     public class CadastroService : ICadastroService
     {
+        private static ICadastroRepository _instance;
+        public static ICadastroRepository GetInstance()
+        {
+            if (_instance == null)
+            {
+                _instance = new CadastroRepository();
+            }
+            return _instance;
+        }
         private ResponseObject<IDadosPessoais> responseObject = new ResponseObject<IDadosPessoais>();
         private ResponseObject<IEnumerable<IDadosPessoais>> responseObjectLista = new ResponseObject<IEnumerable<IDadosPessoais>>();
         private ResponseObject<int> responseObjectExcluir = new ResponseObject<int>();
+
+        public CadastroService()
+        {
+            GetInstance();
+        }
+
         public async Task<ResponseObject<IDadosPessoais>> Cadastrar()//Retorna funcionário criado
         {
             try
             {
-             
+                //Verificar se cpf já existe no banco
+                //Se cpf existir lançar exceção
+                //Verificar dados obrigatórios                
+                //Verificar somente números/ Retirar caracteres especiais
+                //Verificar somente sigla
+                //Verificar número máximo de carateres
+                //Cadastrar todas as tabelas
+                //Retornar usuário cadastrado
+
                 return responseObject.SetSuccess(true).Build();
             }
             catch (Exception ex)
@@ -30,6 +56,14 @@ namespace APIFuncionario.Service
         {
             try
             {
+                //Verificar se cpf já existe no banco
+                //Se cpf não existir lançar exceção
+                //Verificar dados obrigatórios                
+                //Verificar somente números/ Retirar caracteres especiais
+                //Verificar somente sigla
+                //Verificar número máximo de carateres
+                //Alterar todas as tabelas
+                //Retornar usuário alterado
                 return responseObject.SetSuccess(true).Build();
             }
             catch (Exception ex)
@@ -41,7 +75,10 @@ namespace APIFuncionario.Service
         {
             try
             {
-
+                //Verificar se cpf já existe no banco
+                //Se cpf não existir lançar exceção                
+                //Excluir usuário
+                //Retornar usuário excluído
                 return responseObjectExcluir.SetSuccess(true).Build();
             }
             catch (Exception ex)
@@ -53,7 +90,8 @@ namespace APIFuncionario.Service
         {
             try
             {
-                return responseObjectLista.SetSuccess(true).Build();
+                IEnumerable<DadosPessoais> dadosPessoaisLista = await _instance.ConsultarTodos(paginacaoInicial);
+                return responseObjectLista.SetSuccess(true).SetResponseObjDadosPessoaisList(dadosPessoaisLista.ToList()).Build();
             }
             catch (Exception ex)
             {
