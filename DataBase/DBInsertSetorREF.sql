@@ -1,0 +1,7 @@
+USE [fullstackDotNetAngularJS]
+
+INSERT INTO [dbo].[TB_SETOR_REF] ([DESCRICAO]) VALUES ('RH');
+INSERT INTO [dbo].[TB_SETOR_REF] ([DESCRICAO]) VALUES ('Administrativo');
+INSERT INTO [dbo].[TB_SETOR_REF] ([DESCRICAO]) VALUES ('Suporte');
+INSERT INTO [dbo].[TB_SETOR_REF] ([DESCRICAO]) VALUES ('Desenvolvimento');
+INSERT INTO [dbo].[TB_SETOR_REF] ([DESCRICAO]) VALUES ('Vendas');
