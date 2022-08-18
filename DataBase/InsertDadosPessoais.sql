@@ -71,4 +71,4 @@ INSERT INTO [dbo].[TB_DADOS_PESSOAIS]
            ,'2012-02-21T18:10:00'
            ,5)
 
-select [NOME_COMPLETO],[NOME_SOCIAL],[RG],[CPF],[DATA_NASCIMENTO] from [dbo].[TB_DADOS_PESSOAIS] where ATIVO = 1
+select * from [dbo].[TB_DADOS_PESSOAIS] where ATIVO = 1

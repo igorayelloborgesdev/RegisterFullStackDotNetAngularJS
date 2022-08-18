@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace APIFuncionario.IRepository
 {
-    interface ITelefoneRepository
+    public interface ITelefoneRepository
     {
+        Task Incluir(string Ddd, string Celular, int idIdentity, string Residencial = null);
+        void Alterar();
     }
 }

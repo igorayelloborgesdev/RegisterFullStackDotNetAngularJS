@@ -115,7 +115,11 @@
     <Compile Include="IModels\ISetor.cs" />
     <Compile Include="IModels\ITelefones.cs" />
     <Compile Include="IRepository\ICadastroRepository.cs" />
+    <Compile Include="IRepository\ICargoRepository.cs" />
+    <Compile Include="IRepository\IDadosPessoaisRepository.cs.cs" />
+    <Compile Include="IRepository\IEnderecoRepository.cs" />
     <Compile Include="IRepository\ISetorRepository.cs" />
+    <Compile Include="IRepository\ITelefoneRepository.cs" />
     <Compile Include="IResponse\IResponseObject.cs" />
     <Compile Include="IService\ICadastroService.cs" />
     <Compile Include="IService\ISetorService.cs" />
@@ -126,7 +130,11 @@
     <Compile Include="Models\Telefones.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\CadastroRepository.cs" />
+    <Compile Include="Repository\CargoRepository.cs" />
+    <Compile Include="Repository\DadosPessoaisRepository.cs" />
+    <Compile Include="Repository\EnderecoRepository.cs" />
     <Compile Include="Repository\SetorRepository.cs" />
+    <Compile Include="Repository\TelefoneRepository.cs" />
     <Compile Include="Request\RequestObject.cs" />
     <Compile Include="Response\ResponseObject.cs" />
     <Compile Include="Service\CadastroService.cs" />

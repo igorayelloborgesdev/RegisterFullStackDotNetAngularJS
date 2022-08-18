@@ -25,12 +25,59 @@ namespace APIFuncionario.Service
             }
             return _instance;
         }
+
+        private static IDadosPessoaisRepository _instanceDadosPessoais;
+        public static IDadosPessoaisRepository GetInstanceDadosPessoais()
+        {
+            if (_instanceDadosPessoais == null)
+            {
+                _instanceDadosPessoais = new DadosPessoaisRepository();
+            }
+            return _instanceDadosPessoais;
+        }
+
+        private static ICargoRepository _instanceCargo;
+        public static ICargoRepository GetInstanceCargo()
+        {
+            if (_instanceCargo == null)
+            {
+                _instanceCargo = new CargoRepository();
+            }
+            return _instanceCargo;
+        }
+
+        private static ITelefoneRepository _instanceTelefone;
+        public static ITelefoneRepository GetInstanceTelefone()
+        {
+            if (_instanceTelefone == null)
+            {
+                _instanceTelefone = new TelefoneRepository();
+            }
+            return _instanceTelefone;
+        }
+
+        private static IEnderecoRepository _instanceEndereco;
+        public static IEnderecoRepository GetInstanceEndereco()
+        {
+            if (_instanceEndereco == null)
+            {
+                _instanceEndereco = new EnderecoRepository();
+            }
+            return _instanceEndereco;
+        }
+        
+
+
         private ResponseObject<IDadosPessoais> responseObject = new ResponseObject<IDadosPessoais>();
         private ResponseObject<IEnumerable<IDadosPessoais>> responseObjectLista = new ResponseObject<IEnumerable<IDadosPessoais>>();        
 
         public CadastroService()
         {
             GetInstance();
+            GetInstanceDadosPessoais();
+            GetInstanceCargo();
+            GetInstanceTelefone();
+            GetInstanceEndereco();
         }
 
         public async Task<ResponseObject<IDadosPessoais>> Cadastrar(RequestObject requestObject)//Retorna funcionário criado
@@ -40,15 +87,19 @@ namespace APIFuncionario.Service
                 using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
                     DadosPessoais dadosPessoais = await _instance.ConsultarPorCpf(requestObject.CPF);//Verificar se cpf já existe no banco
-                    if (dadosPessoais != null)//Se cpf não existir lançar exceção
+                    if (dadosPessoais != null)//Se cpf existir lançar exceção
                         throw new Exception("Funcionário já cadastrado");
-
-
                     //Cadastrar todas as tabelas
+                    int idIdentity = await _instanceDadosPessoais.Incluir(requestObject.Nome_Completo, requestObject.Nome_Social, requestObject.RG, requestObject.CPF, requestObject.Data_Nascimento.ToString("yyyy-MM-dd"));
+                    await _instanceCargo.Incluir(requestObject.Descricao, requestObject.Salario, requestObject.Data_Inicio.ToString("yyyy-MM-dd"), requestObject.setor, idIdentity, requestObject.Data_Encerramento);
+                    await _instanceTelefone.Incluir(requestObject.Ddd, requestObject.Celular, idIdentity, requestObject.Residencial);
+                    await _instanceEndereco.Incluir(requestObject.Logradouro, requestObject.Numero, requestObject.Cidade, requestObject.Cep, requestObject.Estado, idIdentity, requestObject.Complemento);
+                    DadosPessoais dadosPessoaisRegistrados = await _instance.ConsultarPorCpf(requestObject.CPF);//Verificar se cpf foi cadastrado
+                    if (dadosPessoaisRegistrados == null)//Se cpf não existir lançar exceção
+                        throw new Exception("Funcionário já cadastrado");
                     //Retornar usuário cadastrado
-
                     scope.Complete();
-                    return responseObject.SetSuccess(true).Build();
+                    return responseObject.SetSuccess(true).SetResponseObjDadosPessoais(dadosPessoaisRegistrados).Build();
                 }                
             }
             catch (Exception ex)

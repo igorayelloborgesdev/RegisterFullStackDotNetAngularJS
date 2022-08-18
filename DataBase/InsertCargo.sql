@@ -4,14 +4,16 @@ GO
 INSERT INTO [dbo].[TB_CARGO]
            ([DESCRICAO]
            ,[SALARIO]
-           ,[DATA_INICIO]           
+           ,[DATA_INICIO]  
+		   ,[DATA_ENCERRAMENTO]
            ,[SETOR]
            ,[ID_TB_DADOS_PESSOAIS]
            ,[ID_TB_SETOR_REF])
      VALUES
            ('Atacante'
            ,100000.00
-           ,'2012-02-21T18:10:00'          
+           ,'2012-02-21T18:10:00'   
+		   ,null
            ,1
            ,3
            ,1)

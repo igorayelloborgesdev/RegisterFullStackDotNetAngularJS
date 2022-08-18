@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace APIFuncionario.IRepository
 {
-    interface ICargoRepository
+    public interface ICargoRepository
     {
+        Task Incluir(string Descricao, decimal Salario, string Data_Inicio, int setor, int idIdentity, string Data_Encerramento = null);
+        void Alterar();
     }
 }
