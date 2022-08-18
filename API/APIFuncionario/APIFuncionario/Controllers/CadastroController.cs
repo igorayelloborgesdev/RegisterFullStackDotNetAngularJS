@@ -33,18 +33,30 @@ namespace APIFuncionario.Controllers
         //{ }
         //public void Alterar()//Retorna funcionário alterado
         //{ }
-        //public void Excluir(string cpf)//Retorna id do usuário excluído
-        //{ }
+        [Route("excluirPorCPF/{cpf}")]
+        [HttpDelete]
+        public async Task<ResponseObject<IDadosPessoais>> Excluir(string cpf)//Retorna id do usuário excluído
+        {
+            return await _instance.Excluir(cpf);
+        }
         [Route("todos/{paginacaoInicial:int}")]
         [HttpGet]
         public async Task<ResponseObject<IEnumerable<IDadosPessoais>>> ConsultarTodos(int paginacaoInicial)//Retorna lista paginada de funcionários
         {
             return await _instance.ConsultarTodos(paginacaoInicial);            
         }
-        //public void ConsultarPorId(int id)//Retorna funcionário pesquisado por id
-        //{ }
-        //void ConsultarPorCpf(string cpf)//Retorna funcionário pesquisado por cpf
-        //{ }
+        [Route("porId/{id:int}")]
+        [HttpGet]
+        public async Task<ResponseObject<IDadosPessoais>> ConsultarPorId(int id)//Retorna funcionário pesquisado por id
+        {
+            return await _instance.ConsultarPorId(id);
+        }
+        [Route("porCPF/{cpf}")]
+        [HttpGet]
+        public async Task<ResponseObject<IDadosPessoais>> ConsultarPorCpf(string cpf)//Retorna funcionário pesquisado por cpf
+        {
+            return await _instance.ConsultarPorCpf(cpf);
+        }
 
     }
 }

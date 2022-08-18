@@ -14,5 +14,6 @@ namespace APIFuncionario.IResponse
         T responseObj { get; set; }
         IEnumerable<T> responseObjList { get; set; }
         IEnumerable<DadosPessoais> responseObjDadosPessoaisList { get; set; }
+        DadosPessoais responseObjDadosPessoais { get; set; }
     }
 }

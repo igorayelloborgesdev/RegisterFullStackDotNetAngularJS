@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Transactions;
 using System.Web;
 
 namespace APIFuncionario.Service
@@ -24,8 +25,7 @@ namespace APIFuncionario.Service
             return _instance;
         }
         private ResponseObject<IDadosPessoais> responseObject = new ResponseObject<IDadosPessoais>();
-        private ResponseObject<IEnumerable<IDadosPessoais>> responseObjectLista = new ResponseObject<IEnumerable<IDadosPessoais>>();
-        private ResponseObject<int> responseObjectExcluir = new ResponseObject<int>();
+        private ResponseObject<IEnumerable<IDadosPessoais>> responseObjectLista = new ResponseObject<IEnumerable<IDadosPessoais>>();        
 
         public CadastroService()
         {
@@ -71,19 +71,25 @@ namespace APIFuncionario.Service
                 return responseObject.SetSuccess(false).SetMessage("Erro ao alterar funcionário. " + ex.Message).Build();
             }
         }
-        public async Task<ResponseObject<int>> Excluir(string cpf)//Retorna id do usuário excluído
+        public async Task<ResponseObject<IDadosPessoais>> Excluir(string cpf)//Retorna id do usuário excluído
         {
             try
-            {
-                //Verificar se cpf já existe no banco
-                //Se cpf não existir lançar exceção                
-                //Excluir usuário
-                //Retornar usuário excluído
-                return responseObjectExcluir.SetSuccess(true).Build();
+            {                
+                DadosPessoais dadosPessoais = await _instance.ConsultarPorCpf(cpf);//Verificar se cpf já existe no banco
+                if (dadosPessoais == null)//Se cpf não existir lançar exceção
+                    throw new Exception("Funcionário não cadastrado");
+                await _instance.Excluir(cpf);//Excluir usuário
+                DadosPessoais dadosPessoaisExcluido = await _instance.ConsultarPorCpf(cpf);//Verificar se o registro foi excluído
+                if(dadosPessoaisExcluido != null)
+                    throw new Exception("Não foi possível excluir o funcionário");                
+                return responseObject.SetSuccess(true)
+                    .SetResponseObjDadosPessoais(new DadosPessoais() { Id = dadosPessoais.Id })
+                    .SetMessage($"Funcionário {dadosPessoais.Nome_Completo} excluído com sucesso")
+                    .Build();//Retornar usuário excluído
             }
             catch (Exception ex)
             {
-                return responseObjectExcluir.SetSuccess(false).SetMessage("Erro ao excluir funcionário. " + ex.Message).Build();
+                return responseObject.SetSuccess(false).SetMessage("Erro ao excluir funcionário. " + ex.Message).Build();
             }
         }
         public async Task<ResponseObject<IEnumerable<IDadosPessoais>>> ConsultarTodos(int paginacaoInicial)//Retorna lista paginada de funcionários
@@ -102,7 +108,8 @@ namespace APIFuncionario.Service
         {
             try
             {
-                return responseObject.SetSuccess(true).Build();
+                DadosPessoais dadosPessoais = await _instance.ConsultarPorId(id);
+                return responseObject.SetSuccess(true).SetResponseObjDadosPessoais(dadosPessoais).Build();
             }
             catch (Exception ex)
             {
@@ -113,7 +120,8 @@ namespace APIFuncionario.Service
         {
             try
             {
-                return responseObject.SetSuccess(true).Build();
+                DadosPessoais dadosPessoais = await _instance.ConsultarPorCpf(cpf);
+                return responseObject.SetSuccess(true).SetResponseObjDadosPessoais(dadosPessoais).Build();
             }
             catch (Exception ex)
             {
