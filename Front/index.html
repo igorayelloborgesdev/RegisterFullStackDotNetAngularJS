@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>    
+    
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="bootstrap-5.2.0-dist/js/bootstrap.js"></script>
+    <link href="bootstrap-5.2.0-dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    
+    
+    
+
+
+
+    <script src="myApp.js"></script>
+    <script src="myCtrl.js"></script>
+
+
+
+  </head>
+<body>
+    <div ng-app="myApp" ng-controller="myCtrl">
+
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Digite o CPF do funcionário" aria-label="Digite o CPF do funcionário" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" ng-click="Consultar()" >Pesquisar</button>
+            </div>
+        </div>
+
+        
+        
+            <label for="singleSelect"> Single select: </label><br>
+            <select name="singleSelect" ng-model="data.singleSelect">
+                <option class="dropdown-item" value="option-1">Option 1</option>
+                <option value="option-2">Option 2</option>
+            </select>
+       
+        
+            <div class="dropdown show">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="AbrirFecharDropDown()">
+                  Dropdown link
+                </a>
+              
+                <div ng-class="class" class="dropdown-menu" aria-labelledby="dropdownMenuLink" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+              </div>
+
+    </div>    
+</body>
+
+<!-- <body>
+
+    <div ng-app="myApp" ng-controller="myCtrl">
+    {{ firstName + " " + lastName }}
+    </div>
+    
+  
+    
+    </body> -->
+
+</html>
