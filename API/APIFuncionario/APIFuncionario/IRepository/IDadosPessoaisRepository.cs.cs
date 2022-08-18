@@ -9,6 +9,6 @@ namespace APIFuncionario.IRepository
     public interface IDadosPessoaisRepository
     {
         Task<int> Incluir(string Nome_Completo, string Nome_Social, string RG, string CPF, string Data_Nascimento);
-        void Alterar();
+        Task Alterar(string Nome_Completo, string Nome_Social, string RG, string CPF, string Data_Nascimento, int id);
     }
 }

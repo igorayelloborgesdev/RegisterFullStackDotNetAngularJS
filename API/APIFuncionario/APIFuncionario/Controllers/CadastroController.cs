@@ -43,10 +43,23 @@ namespace APIFuncionario.Controllers
                 var errors = ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList();
                 return new ResponseObject<IDadosPessoais>().SetMessage($"Encontrados {errors} erros: {messages} ").SetSuccess(false);
             }            
-            return await _instance.Cadastrar(requestObject);                        
+            return await _instance.Cadastrar(requestObject);
         }
-        //public void Alterar()//Retorna funcionário alterado
-        //{ }
+        [Route("Alterar")]
+        [HttpPut]
+        public async Task<ResponseObject<IDadosPessoais>> Alterar([FromBody] RequestObject requestObject)//Retorna funcionário alterado
+        {
+            if (!ModelState.IsValid)
+            {
+                string messages = string.Join(" | ", ModelState.Values
+                                        .SelectMany(x => x.Errors)
+                                        .Select(x => x.ErrorMessage));
+
+                var errors = ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList();
+                return new ResponseObject<IDadosPessoais>().SetMessage($"Encontrados {errors} erros: {messages} ").SetSuccess(false);
+            }
+            return await _instance.Alterar(requestObject);
+        }
         [Route("excluirPorCPF/{cpf}")]
         [HttpDelete]
         public async Task<ResponseObject<IDadosPessoais>> Excluir(string cpf)//Retorna id do usuário excluído

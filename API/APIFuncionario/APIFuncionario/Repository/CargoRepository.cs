@@ -21,6 +21,12 @@ namespace APIFuncionario.Repository
                 int rowsAffected = db.Execute(sql, new { Descricao = Descricao, Salario = Salario, Data_Inicio = Data_Inicio, Data_Encerramento = Data_Encerramento, setor = setor, idIdentity = idIdentity });
             }
         }
-        public void Alterar() { }
+        public async Task Alterar(string Descricao, decimal Salario, string Data_Inicio, int setor, int id, string Data_Encerramento = null) {
+            string sql = "UPDATE TB_CARGO SET DESCRICAO = @Descricao ,SALARIO = @Salario ,DATA_INICIO = @Data_Inicio ,DATA_ENCERRAMENTO = @Data_Encerramento ,SETOR = @setor  WHERE ID_TB_DADOS_PESSOAIS = @id";
+            using (var db = new SqlConnection(connStr))
+            {
+                int rowsAffected = db.Execute(sql, new { Descricao = Descricao, Salario = Salario, Data_Inicio = Data_Inicio, Data_Encerramento = Data_Encerramento, setor = setor, id = id });
+            }
+        }
     }
 }

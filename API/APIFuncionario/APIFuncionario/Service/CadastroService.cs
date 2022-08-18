@@ -107,20 +107,25 @@ namespace APIFuncionario.Service
                 return responseObject.SetSuccess(false).SetMessage("Erro ao cadastrar funcionário. " + ex.Message).Build();
             }
         }
-        public async Task<ResponseObject<IDadosPessoais>> Alterar()//Retorna funcionário alterado
+        public async Task<ResponseObject<IDadosPessoais>> Alterar(RequestObject requestObject)//Retorna funcionário alterado
         {
             try
             {
-                //DadosPessoais dadosPessoais = await _instance.ConsultarPorCpf(cpf);//Verificar se cpf já existe no banco
-                //if (dadosPessoais == null)//Se cpf não existir lançar exceção
-                //    throw new Exception("Funcionário não cadastrado");
-                //Verificar dados obrigatórios                
-                //Verificar somente números/ Retirar caracteres especiais
-                //Verificar somente sigla
-                //Verificar número máximo de carateres
-                //Alterar todas as tabelas
-                //Retornar usuário alterado
-                return responseObject.SetSuccess(true).Build();
+                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    DadosPessoais dadosPessoais = await _instance.ConsultarPorCpf(requestObject.CPF);//Verificar se cpf já existe no banco
+                    if (dadosPessoais == null)//Se cpf não existir lançar exceção
+                        throw new Exception("Funcionário não cadastrado");
+                    //Alterar todas as tabelas
+                    await _instanceDadosPessoais.Alterar(requestObject.Nome_Completo, requestObject.Nome_Social, requestObject.RG, requestObject.CPF, requestObject.Data_Nascimento.ToString("yyyy-MM-dd"), dadosPessoais.Id);
+                    await _instanceCargo.Alterar(requestObject.Descricao, requestObject.Salario, requestObject.Data_Inicio.ToString("yyyy-MM-dd"), requestObject.setor, dadosPessoais.Id, requestObject.Data_Encerramento);
+                    await _instanceTelefone.Alterar(requestObject.Ddd, requestObject.Celular, dadosPessoais.Id, requestObject.Residencial);
+                    await _instanceEndereco.Alterar(requestObject.Logradouro, requestObject.Numero, requestObject.Cidade, requestObject.Cep, requestObject.Estado, dadosPessoais.Id, requestObject.Complemento);
+                    DadosPessoais dadosPessoaisRegistrados = await _instance.ConsultarPorCpf(requestObject.CPF);//Verificar se cpf foi cadastrado
+                    //Retornar usuário alterado
+                    scope.Complete();
+                    return responseObject.SetSuccess(true).SetResponseObjDadosPessoais(dadosPessoaisRegistrados).Build();
+                }                 
             }
             catch (Exception ex)
             {

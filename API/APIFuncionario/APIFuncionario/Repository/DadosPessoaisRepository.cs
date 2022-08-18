@@ -23,6 +23,13 @@ namespace APIFuncionario.Repository
             }
             return Task.FromResult(id);
         }
-        public void Alterar() { }
+        public async Task Alterar(string Nome_Completo, string Nome_Social, string RG, string CPF, string Data_Nascimento, int id) 
+        {
+            string sql = "UPDATE TB_DADOS_PESSOAIS SET NOME_COMPLETO = @Nome_Completo ,NOME_SOCIAL = @Nome_Social ,RG = @RG ,CPF = @CPF ,DATA_NASCIMENTO = @Data_Nascimento  WHERE ID = @id";
+            using (var db = new SqlConnection(connStr))
+            {
+                db.Execute(sql, new { Nome_Completo = Nome_Completo, Nome_Social = Nome_Social, RG = RG, CPF = CPF, Data_Nascimento = Data_Nascimento, id = id });
+            }
+        }
     }
 }

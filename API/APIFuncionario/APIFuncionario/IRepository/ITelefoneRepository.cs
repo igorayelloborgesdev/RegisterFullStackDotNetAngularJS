@@ -9,6 +9,6 @@ namespace APIFuncionario.IRepository
     public interface ITelefoneRepository
     {
         Task Incluir(string Ddd, string Celular, int idIdentity, string Residencial = null);
-        void Alterar();
+        Task Alterar(string Ddd, string Celular, int id, string Residencial = null);
     }
 }

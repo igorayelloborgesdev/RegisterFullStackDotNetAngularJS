@@ -9,6 +9,6 @@ namespace APIFuncionario.IRepository
     public interface IEnderecoRepository
     {
         Task Incluir(string Logradouro, string Numero, string Cidade, string Cep, string Estado, int idIdentity, string Complemento = null);
-        void Alterar();
+        Task Alterar(string Logradouro, string Numero, string Cidade, string Cep, string Estado, int id, string Complemento = null);
     }
 }
