@@ -127,6 +127,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\CadastroRepository.cs" />
     <Compile Include="Repository\SetorRepository.cs" />
+    <Compile Include="Request\RequestObject.cs" />
     <Compile Include="Response\ResponseObject.cs" />
     <Compile Include="Service\CadastroService.cs" />
     <Compile Include="Service\SetorService.cs" />

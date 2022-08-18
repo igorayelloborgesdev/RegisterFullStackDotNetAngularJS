@@ -1,5 +1,6 @@
 ﻿using APIFuncionario.IModels;
 using APIFuncionario.IService;
+using APIFuncionario.Request;
 using APIFuncionario.Response;
 using APIFuncionario.Service;
 using System;
@@ -29,8 +30,21 @@ namespace APIFuncionario.Controllers
         {
             GetInstance();
         }
-        //public void Cadastrar() //Retorna funcionário criado
-        //{ }
+        [Route("cadastrar")]
+        [HttpPost]
+        public async Task<ResponseObject<IDadosPessoais>> Cadastrar([FromBody] RequestObject requestObject) //Retorna funcionário criado
+        {
+            if (!ModelState.IsValid)
+            {
+                string messages = string.Join(" | ", ModelState.Values
+                                        .SelectMany(x => x.Errors)
+                                        .Select(x => x.ErrorMessage));
+
+                var errors = ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList();
+                return new ResponseObject<IDadosPessoais>().SetMessage($"Encontrados {errors} erros: {messages} ").SetSuccess(false);
+            }            
+            return await _instance.Cadastrar(requestObject);                        
+        }
         //public void Alterar()//Retorna funcionário alterado
         //{ }
         [Route("excluirPorCPF/{cpf}")]

@@ -3,6 +3,7 @@ using APIFuncionario.IRepository;
 using APIFuncionario.IService;
 using APIFuncionario.Models;
 using APIFuncionario.Repository;
+using APIFuncionario.Request;
 using APIFuncionario.Response;
 using System;
 using System.Collections.Generic;
@@ -32,20 +33,23 @@ namespace APIFuncionario.Service
             GetInstance();
         }
 
-        public async Task<ResponseObject<IDadosPessoais>> Cadastrar()//Retorna funcionário criado
+        public async Task<ResponseObject<IDadosPessoais>> Cadastrar(RequestObject requestObject)//Retorna funcionário criado
         {
             try
             {
-                //Verificar se cpf já existe no banco
-                //Se cpf existir lançar exceção
-                //Verificar dados obrigatórios                
-                //Verificar somente números/ Retirar caracteres especiais
-                //Verificar somente sigla
-                //Verificar número máximo de carateres
-                //Cadastrar todas as tabelas
-                //Retornar usuário cadastrado
+                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    DadosPessoais dadosPessoais = await _instance.ConsultarPorCpf(requestObject.CPF);//Verificar se cpf já existe no banco
+                    if (dadosPessoais != null)//Se cpf não existir lançar exceção
+                        throw new Exception("Funcionário já cadastrado");
 
-                return responseObject.SetSuccess(true).Build();
+
+                    //Cadastrar todas as tabelas
+                    //Retornar usuário cadastrado
+
+                    scope.Complete();
+                    return responseObject.SetSuccess(true).Build();
+                }                
             }
             catch (Exception ex)
             {
@@ -56,8 +60,9 @@ namespace APIFuncionario.Service
         {
             try
             {
-                //Verificar se cpf já existe no banco
-                //Se cpf não existir lançar exceção
+                //DadosPessoais dadosPessoais = await _instance.ConsultarPorCpf(cpf);//Verificar se cpf já existe no banco
+                //if (dadosPessoais == null)//Se cpf não existir lançar exceção
+                //    throw new Exception("Funcionário não cadastrado");
                 //Verificar dados obrigatórios                
                 //Verificar somente números/ Retirar caracteres especiais
                 //Verificar somente sigla
@@ -74,18 +79,22 @@ namespace APIFuncionario.Service
         public async Task<ResponseObject<IDadosPessoais>> Excluir(string cpf)//Retorna id do usuário excluído
         {
             try
-            {                
-                DadosPessoais dadosPessoais = await _instance.ConsultarPorCpf(cpf);//Verificar se cpf já existe no banco
-                if (dadosPessoais == null)//Se cpf não existir lançar exceção
-                    throw new Exception("Funcionário não cadastrado");
-                await _instance.Excluir(cpf);//Excluir usuário
-                DadosPessoais dadosPessoaisExcluido = await _instance.ConsultarPorCpf(cpf);//Verificar se o registro foi excluído
-                if(dadosPessoaisExcluido != null)
-                    throw new Exception("Não foi possível excluir o funcionário");                
-                return responseObject.SetSuccess(true)
-                    .SetResponseObjDadosPessoais(new DadosPessoais() { Id = dadosPessoais.Id })
-                    .SetMessage($"Funcionário {dadosPessoais.Nome_Completo} excluído com sucesso")
-                    .Build();//Retornar usuário excluído
+            {
+                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    DadosPessoais dadosPessoais = await _instance.ConsultarPorCpf(cpf);//Verificar se cpf já existe no banco
+                    if (dadosPessoais == null)//Se cpf não existir lançar exceção
+                        throw new Exception("Funcionário não cadastrado");
+                    await _instance.Excluir(cpf);//Excluir usuário
+                    DadosPessoais dadosPessoaisExcluido = await _instance.ConsultarPorCpf(cpf);//Verificar se o registro foi excluído
+                    if(dadosPessoaisExcluido != null)
+                        throw new Exception("Não foi possível excluir o funcionário");
+                    scope.Complete();
+                    return responseObject.SetSuccess(true)
+                        .SetResponseObjDadosPessoais(new DadosPessoais() { Id = dadosPessoais.Id })
+                        .SetMessage($"Funcionário {dadosPessoais.Nome_Completo} excluído com sucesso")
+                        .Build();//Retornar usuário excluído                                        
+                }
             }
             catch (Exception ex)
             {
@@ -97,7 +106,7 @@ namespace APIFuncionario.Service
             try
             {
                 IEnumerable<DadosPessoais> dadosPessoaisLista = await _instance.ConsultarTodos(paginacaoInicial);
-                return responseObjectLista.SetSuccess(true).SetResponseObjDadosPessoaisList(dadosPessoaisLista.ToList()).Build();
+                return responseObjectLista.SetSuccess(true).SetResponseObjDadosPessoaisList(dadosPessoaisLista.ToList()).SetMessage(dadosPessoaisLista.ToList().Count() == 0 ? "Pesquisa não retornou resultados" : "").Build();
             }
             catch (Exception ex)
             {
@@ -121,7 +130,7 @@ namespace APIFuncionario.Service
             try
             {
                 DadosPessoais dadosPessoais = await _instance.ConsultarPorCpf(cpf);
-                return responseObject.SetSuccess(true).SetResponseObjDadosPessoais(dadosPessoais).Build();
+                return responseObject.SetSuccess(true).SetResponseObjDadosPessoais(dadosPessoais).SetMessage(dadosPessoais == null? "Pesquisa não retornou resultados" : "").Build();
             }
             catch (Exception ex)
             {

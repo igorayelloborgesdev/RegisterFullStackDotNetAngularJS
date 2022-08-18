@@ -1,5 +1,6 @@
 ﻿using APIFuncionario.IModels;
 using APIFuncionario.Models;
+using APIFuncionario.Request;
 using APIFuncionario.Response;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace APIFuncionario.IService
 {
     public interface ICadastroService
     {
-        Task<ResponseObject<IDadosPessoais>> Cadastrar();//Retorna funcionário criado
+        Task<ResponseObject<IDadosPessoais>> Cadastrar(RequestObject requestObject);//Retorna funcionário criado
         Task<ResponseObject<IDadosPessoais>> Alterar();//Retorna funcionário alterado
         Task<ResponseObject<IDadosPessoais>> Excluir(string cpf);//Retorna id do usuário excluído
         Task<ResponseObject<IEnumerable<IDadosPessoais>>> ConsultarTodos(int paginacaoInicial);//Retorna lista paginada de funcionários
