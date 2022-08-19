@@ -33,7 +33,7 @@ namespace APIFuncionario.Repository
             using (var db = new SqlConnection(connStr))
             {
                 await db.OpenAsync();
-                var query = "select dp.ID, dp.NOME_COMPLETO,dp.NOME_SOCIAL,dp.RG,dp.CPF,dp.DATA_NASCIMENTO, ca.DESCRICAO,ca.SALARIO,ca.DATA_INICIO, ca.ID, setRef.ID, setRef.DESCRICAO, endr.CEP, endr.CIDADE, endr.COMPLEMENTO, endr.ESTADO, endr.LOGRADOURO, endr.NUMERO, tel.CELULAR, tel.DDD, tel.RESIDENCIAL from TB_DADOS_PESSOAIS AS dp  inner join TB_CARGO AS ca on dp.ID = ca.ID_TB_DADOS_PESSOAIS  inner join TB_SETOR_REF AS setRef on ca.ID_TB_SETOR_REF = setRef.ID inner join TB_ENDERECO AS endr on dp.ID = endr.ID_TB_DADOS_PESSOAIS inner join TB_TELEFONES AS tel on dp.ID = tel.ID_TB_DADOS_PESSOAIS where dp.ATIVO = 1 order by dp.ID DESC offset @PaginacaoInicial rows fetch next 10 rows only";
+                var query = "select dp.ID, dp.NOME_COMPLETO,dp.NOME_SOCIAL,dp.RG,dp.CPF,dp.DATA_NASCIMENTO, ca.DESCRICAO,ca.SALARIO,ca.DATA_INICIO, ca.DATA_ENCERRAMENTO, ca.SETOR, ca.ID, setRef.ID, setRef.DESCRICAO, endr.CEP, endr.CIDADE, endr.COMPLEMENTO, endr.ESTADO, endr.LOGRADOURO, endr.NUMERO, tel.CELULAR, tel.DDD, tel.RESIDENCIAL from TB_DADOS_PESSOAIS AS dp  inner join TB_CARGO AS ca on dp.ID = ca.ID_TB_DADOS_PESSOAIS  inner join TB_SETOR_REF AS setRef on ca.ID_TB_SETOR_REF = setRef.ID inner join TB_ENDERECO AS endr on dp.ID = endr.ID_TB_DADOS_PESSOAIS inner join TB_TELEFONES AS tel on dp.ID = tel.ID_TB_DADOS_PESSOAIS where dp.ATIVO = 1 order by dp.ID DESC offset @PaginacaoInicial rows fetch next 10 rows only";
                 dadosPessoais = await db.QueryAsync<DadosPessoais, Cargo, Setor, Endereco, Telefones, DadosPessoais>(query,
                     (dadosPessoal, cargo, setor, endereco, telefones) => 
                     {
@@ -55,7 +55,7 @@ namespace APIFuncionario.Repository
             using (var db = new SqlConnection(connStr))
             {
                 await db.OpenAsync();
-                var query = "select dp.ID, dp.NOME_COMPLETO,dp.NOME_SOCIAL,dp.RG,dp.CPF,dp.DATA_NASCIMENTO, ca.DESCRICAO,ca.SALARIO,ca.DATA_INICIO, ca.ID, setRef.ID, setRef.DESCRICAO, endr.CEP, endr.CIDADE, endr.COMPLEMENTO, endr.ESTADO, endr.LOGRADOURO, endr.NUMERO, tel.CELULAR, tel.DDD, tel.RESIDENCIAL from TB_DADOS_PESSOAIS AS dp inner join TB_CARGO AS ca on dp.ID = ca.ID_TB_DADOS_PESSOAIS  inner join TB_SETOR_REF AS setRef on ca.ID_TB_SETOR_REF = setRef.ID inner join TB_ENDERECO AS endr on dp.ID = endr.ID_TB_DADOS_PESSOAIS inner join TB_TELEFONES AS tel on dp.ID = tel.ID_TB_DADOS_PESSOAIS where dp.ATIVO = 1 and dp.ID = @Id";
+                var query = "select dp.ID, dp.NOME_COMPLETO,dp.NOME_SOCIAL,dp.RG,dp.CPF,dp.DATA_NASCIMENTO, ca.DESCRICAO,ca.SALARIO,ca.DATA_INICIO, ca.DATA_ENCERRAMENTO, ca.SETOR, ca.ID, setRef.ID, setRef.DESCRICAO, endr.CEP, endr.CIDADE, endr.COMPLEMENTO, endr.ESTADO, endr.LOGRADOURO, endr.NUMERO, tel.CELULAR, tel.DDD, tel.RESIDENCIAL from TB_DADOS_PESSOAIS AS dp inner join TB_CARGO AS ca on dp.ID = ca.ID_TB_DADOS_PESSOAIS  inner join TB_SETOR_REF AS setRef on ca.ID_TB_SETOR_REF = setRef.ID inner join TB_ENDERECO AS endr on dp.ID = endr.ID_TB_DADOS_PESSOAIS inner join TB_TELEFONES AS tel on dp.ID = tel.ID_TB_DADOS_PESSOAIS where dp.ATIVO = 1 and dp.ID = @Id";
                 dadosPessoais = await db.QueryAsync<DadosPessoais, Cargo, Setor, Endereco, Telefones, DadosPessoais>(query,
                     (dadosPessoal, cargo, setor, endereco, telefones) => 
                     {
@@ -77,7 +77,7 @@ namespace APIFuncionario.Repository
             using (var db = new SqlConnection(connStr))
             {
                 await db.OpenAsync();
-                var query = "select dp.ID, dp.NOME_COMPLETO,dp.NOME_SOCIAL,dp.RG,dp.CPF,dp.DATA_NASCIMENTO, ca.DESCRICAO,ca.SALARIO,ca.DATA_INICIO, ca.ID, setRef.ID, setRef.DESCRICAO, endr.CEP, endr.CIDADE, endr.COMPLEMENTO, endr.ESTADO, endr.LOGRADOURO, endr.NUMERO, tel.CELULAR, tel.DDD, tel.RESIDENCIAL from TB_DADOS_PESSOAIS AS dp  inner join TB_CARGO AS ca on dp.ID = ca.ID_TB_DADOS_PESSOAIS  inner join TB_SETOR_REF AS setRef on ca.ID_TB_SETOR_REF = setRef.ID inner join TB_ENDERECO AS endr on dp.ID = endr.ID_TB_DADOS_PESSOAIS inner join TB_TELEFONES AS tel on dp.ID = tel.ID_TB_DADOS_PESSOAIS where dp.ATIVO = 1 and dp.CPF = @CPF";
+                var query = "select dp.ID, dp.NOME_COMPLETO,dp.NOME_SOCIAL,dp.RG,dp.CPF,dp.DATA_NASCIMENTO, ca.DESCRICAO,ca.SALARIO,ca.DATA_INICIO, ca.DATA_ENCERRAMENTO, ca.SETOR, ca.ID, setRef.ID, setRef.DESCRICAO, endr.CEP, endr.CIDADE, endr.COMPLEMENTO, endr.ESTADO, endr.LOGRADOURO, endr.NUMERO, tel.CELULAR, tel.DDD, tel.RESIDENCIAL from TB_DADOS_PESSOAIS AS dp  inner join TB_CARGO AS ca on dp.ID = ca.ID_TB_DADOS_PESSOAIS  inner join TB_SETOR_REF AS setRef on ca.ID_TB_SETOR_REF = setRef.ID inner join TB_ENDERECO AS endr on dp.ID = endr.ID_TB_DADOS_PESSOAIS inner join TB_TELEFONES AS tel on dp.ID = tel.ID_TB_DADOS_PESSOAIS where dp.ATIVO = 1 and dp.CPF = @CPF";
                 dadosPessoais = await db.QueryAsync<DadosPessoais, Cargo, Setor, Endereco, Telefones, DadosPessoais>(query,
                     (dadosPessoal, cargo, setor, endereco, telefones) =>
                     {

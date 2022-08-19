@@ -1,9 +1,5 @@
 app.controller("myCtrl", function($scope, $http) {
-    $scope.firstName = "Teste";
-    $scope.lastName= "1";
-
-
-
+   
     $scope.class = "";
     $scope.cargosList = [];
     $scope.cargoSelecionadoNome = "";
@@ -14,28 +10,9 @@ app.controller("myCtrl", function($scope, $http) {
     $scope.isLoading = false;
     $scope.id = 0;    
     $scope.paginacaoId = 0;
-
-    // $scope.requestObject = {//TESTE
-    //     Nome_Completo: "Claudio", 
-    //     Nome_Social: "Taffarel",
-    //     RG: "000000001",
-    //     CPF: "00000000001",
-    //     Data_Nascimento: "1960-03-01",
-    //     Descricao: "Meio - Campo",
-    //     Salario: 10000.00,
-    //     Data_Inicio: "2012-02-21",
-    //     Data_Encerramento: null,
-    //     setor: 1,
-    //     Logradouro: "Av Paulista",
-    //     Numero: "123",
-    //     Cidade: "São Paulo",
-    //     Cep: "01234567",
-    //     Complemento: null,
-    //     Estado: "SP",
-    //     Ddd: "11",
-    //     Celular: "987654321",
-    //     Residencial: null
-    // }
+    $scope.modos = 0;//0 - Visualização | 1 - Inclusão | 2 - Edição
+    $scope.msgErro = "";
+    $scope.mostrarMsgErro = false;    
 
     $scope.requestObject = {
         Nome_Completo: null, 
@@ -59,37 +36,17 @@ app.controller("myCtrl", function($scope, $http) {
         Residencial: null
     }
 
-    $scope.requestObjectRESET = {
-        Nome_Completo: null, 
-        Nome_Social: null,
-        RG: null,
-        CPF: null,
-        Data_Nascimento: null,
-        Descricao: null,
-        Salario: 0.0,
-        Data_Inicio: null,
-        Data_Encerramento: null,
-        setor: 0,
-        Logradouro: null,
-        Numero: null,
-        Cidade: null,
-        Cep: null,
-        Complemento: null,
-        Estado: null,
-        Ddd: null,
-        Celular: null,
-        Residencial: null
-    }
-
-
     this.ConsultarSetores = function() {
         $scope.isLoading = true;
         $http.get('http://localhost:60490/api/setor').then(function mySuccess(response) {            
             $scope.cargosList = response.data.responseObjList;                                                                                
-            $scope.isLoading = false;
-        }, function myError(response) {    
+            $scope.isLoading = false;            
+            console.log(response);
+            $scope.GerenciarMensagemErro(response.data.Success, response.data.Message);
+        }, function myError(response) {                
             console.log(response);
             $scope.isLoading = false;
+            $scope.GerenciarMensagemErro(response.data.Success, response.data.Message);
         });
     };
 
@@ -99,23 +56,31 @@ app.controller("myCtrl", function($scope, $http) {
         $http.get('http://localhost:60490/api/cadastro/todos/' + $scope.paginacaoId).then(function mySuccess(response) {                        
             $scope.responseObjDadosPessoaisList = response.data.responseObjDadosPessoaisList;
             $scope.SelecionarFuncionarioPadrao();
-            $scope.MostrarDetalheFuncionario($scope.responseObjDadosPessoaisList[0]);
+            $scope.MostrarDetalheFuncionario($scope.responseObjDadosPessoaisList[0]);            
             $scope.isLoading = false;
+            console.log(response);
+            $scope.GerenciarMensagemErro(response.data.Success, response.data.Message);
         }, function myError(response) {    
             console.log(response);
             $scope.isLoading = false;
+            $scope.GerenciarMensagemErro(response.data.Success, response.data.Message);
         });
     };
 
     $scope.ConsultarPorCPF = function() {
         $scope.isLoading = true;
         $http.get('http://localhost:60490/api/cadastro/porCPF/' + $scope.cpf).then(function mySuccess(response) {                                    
-            $scope.responseObjDadosPessoais = response.data.responseObjDadosPessoais;            
+            $scope.responseObjDadosPessoais = response.data.responseObjDadosPessoais;                       
             $scope.MostrarDetalheFuncionario($scope.responseObjDadosPessoais);
+            $scope.responseObjDadosPessoaisList = [];
+            $scope.responseObjDadosPessoaisList.push($scope.responseObjDadosPessoais);                        
             $scope.isLoading = false;
+            console.log(response);
+            $scope.GerenciarMensagemErro(response.data.Success, response.data.Message);
         }, function myError(response) {    
             console.log(response);
             $scope.isLoading = false;
+            $scope.GerenciarMensagemErro(response.data.Success, response.data.Message);
         });
     };
 
@@ -124,9 +89,12 @@ app.controller("myCtrl", function($scope, $http) {
         $http.get('http://localhost:60490/api/cadastro/porId/' + $scope.id).then(function mySuccess(response) {
             $scope.responseObjDadosPessoais = response.data.responseObjDadosPessoais;            
             $scope.isLoading = false;
+            console.log(response);
+            $scope.GerenciarMensagemErro(response.data.Success, response.data.Message);
         }, function myError(response) {    
             console.log(response);
             $scope.isLoading = false;
+            $scope.GerenciarMensagemErro(response.data.Success, response.data.Message);
         });
     };
 
@@ -135,9 +103,12 @@ app.controller("myCtrl", function($scope, $http) {
         $http.delete('http://localhost:60490/api/cadastro/excluirPorCPF/' + cpfExcluir).then(function mySuccess(response) {
             $scope.ConsultarTodos();
             $scope.isLoading = false;
+            console.log(response);
+            $scope.GerenciarMensagemErro(response.data.Success, response.data.Message);
         }, function myError(response) {    
             console.log(response);
             $scope.isLoading = false;
+            $scope.GerenciarMensagemErro(response.data.Success, response.data.Message);
         });
     };
 
@@ -145,10 +116,13 @@ app.controller("myCtrl", function($scope, $http) {
         $scope.isLoading = true;
         $http.post('http://localhost:60490/api/cadastro/Cadastrar/', $scope.requestObject).then(function mySuccess(response) {
             $scope.ConsultarTodos();   
-            $scope.isLoading = false;         
+            $scope.isLoading = false; 
+            console.log(response);    
+            $scope.GerenciarMensagemErro(response.data.Success, response.data.Message);    
         }, function myError(response) {    
             console.log(response);
             $scope.isLoading = false;
+            $scope.GerenciarMensagemErro(response.data.Success, response.data.Message);
         });
     };
 
@@ -157,9 +131,12 @@ app.controller("myCtrl", function($scope, $http) {
         $http.put('http://localhost:60490/api/cadastro/Alterar/', $scope.requestObject).then(function mySuccess(response) {
             $scope.ConsultarTodos();            
             $scope.isLoading = false;
+            console.log(response);
+            $scope.GerenciarMensagemErro(response.data.Success, response.data.Message);
         }, function myError(response) {    
             console.log(response);
             $scope.isLoading = false;
+            $scope.GerenciarMensagemErro(response.data.Success, response.data.Message);
         });
     };
 
@@ -203,23 +180,32 @@ app.controller("myCtrl", function($scope, $http) {
         $scope.Excluir(cpf);
      }
 
+     $scope.EditarFuncionario = function ()
+     {
+        $scope.mostrarMsgErro = false;                        
+        if($scope.modos == 0)
+        {
+            $scope.modos = 2;
+        }            
+     }
+
      $scope.MostrarDetalheFuncionario = function (responseObjDadosPessoais)
      {
         $scope.SelecionarFuncionario(responseObjDadosPessoais.Id);
 
         $scope.requestObject.CPF = responseObjDadosPessoais.CPF;
-        $scope.requestObject.Data_Nascimento = responseObjDadosPessoais.Data_Nascimento;
+        $scope.requestObject.Data_Nascimento = new Date(responseObjDadosPessoais.Data_Nascimento);
         $scope.requestObject.Id = responseObjDadosPessoais.Id;
         $scope.requestObject.Nome_Completo = responseObjDadosPessoais.Nome_Completo;
         $scope.requestObject.Nome_Social = responseObjDadosPessoais.Nome_Social;
         $scope.requestObject.RG = responseObjDadosPessoais.RG;
 
-        $scope.requestObject.Data_Encerramento = responseObjDadosPessoais.cargo.Data_Encerramento;
-        $scope.requestObject.Data_Inicio = responseObjDadosPessoais.cargo.Data_Inicio;
+        $scope.requestObject.Data_Encerramento = responseObjDadosPessoais.cargo.Data_Encerramento != null ? new Date(responseObjDadosPessoais.cargo.Data_Encerramento) : "";
+        $scope.requestObject.Data_Inicio = new Date(responseObjDadosPessoais.cargo.Data_Inicio);
         $scope.requestObject.Descricao = responseObjDadosPessoais.cargo.Descricao;
         $scope.requestObject.Id = responseObjDadosPessoais.cargo.setorRef.Id;
         $scope.requestObject.Salario = responseObjDadosPessoais.cargo.Salario;
-        $scope.requestObject.setor = responseObjDadosPessoais.cargo.setorRef.Id;
+        $scope.requestObject.setor = responseObjDadosPessoais.cargo.setor;
         $scope.cargoSelecionadoNome = $scope.cargosList[responseObjDadosPessoais.cargo.setorRef.Id - 1].Descricao;
 
         $scope.requestObject.Cep = responseObjDadosPessoais.endereco.Cep;
@@ -231,11 +217,69 @@ app.controller("myCtrl", function($scope, $http) {
 
         $scope.requestObject.Celular = responseObjDadosPessoais.telefones.Celular;
         $scope.requestObject.Ddd = responseObjDadosPessoais.telefones.Ddd;
-        $scope.requestObject.Residencial = responseObjDadosPessoais.telefones.Residencial;
+        $scope.requestObject.Residencial = responseObjDadosPessoais.telefones.Residencial;        
+
+        $scope.modos = 0;
+     }
+
+     $scope.SetarModos = function (idModo)
+     {
+        $scope.mostrarMsgErro = false;                        
+        $scope.modos = idModo;
+        if($scope.modos == 1)
+        {
+            $scope.requestObject = {};   
+            $scope.funcionarioSelecionado = -1;
+        }            
+     }
+
+     $scope.formatNumbers = function ($event)
+     {        
+        if(isNaN(String.fromCharCode($event.keyCode))){
+            $event.preventDefault();
+        }
+     }
+
+     $scope.IncluirFuncionario = function ()
+     {                
+        $scope.Cadastrar();
+     }
+
+     $scope.AlterarFuncionario = function ()
+     {                
+        $scope.Alterar();
+     }
+
+     $scope.GerenciarMensagemErro = function (isSuccess, message)
+     {                
+        if(!isSuccess)
+        {
+            $scope.msgErro = message;
+            $scope.mostrarMsgErro = true;  
+        }            
      }
 
     this.ConsultarSetores();
 
-
-
   });
+  app.directive('replace', function() {
+    return {
+      require: 'ngModel',
+      scope: {
+        regex: '@replace',
+        with: '@with'
+      }, 
+      link: function(scope, element, attrs, model) {
+        model.$parsers.push(function(val) {
+          if (!val) { return; }
+          var regex = new RegExp(scope.regex);
+          var replaced = val.replace(regex, scope.with); 
+          if (replaced !== val) {
+            model.$setViewValue(replaced);
+            model.$render();
+          }         
+          return replaced;         
+        });
+      }
+    };
+  })
