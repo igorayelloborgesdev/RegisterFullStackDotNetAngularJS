@@ -1,0 +1,12 @@
+.trash
+{
+    background:URL('trash-svgrepo-com.svg');
+    width:30px;
+    height:30px;
+}
+.edit
+{
+    background:URL('edit-button-svgrepo-com.svg');
+    width:30px;
+    height:30px;
+}

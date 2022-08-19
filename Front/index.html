@@ -2,31 +2,143 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>        
     <script src="https://code.jquery.com/jquery.js"></script>
     <script src="bootstrap-5.2.0-dist/js/bootstrap.js"></script>
-    <link href="bootstrap-5.2.0-dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="bootstrap-5.2.0-dist/css/bootstrap.min.css" rel="stylesheet" media="screen">        
     <script src="myApp.js"></script>
     <script src="myCtrl.js"></script>
+    <link rel="stylesheet" href="styles.css">
   </head>
     <body>
         <div ng-app="myApp" ng-controller="myCtrl">
+            <div class="container">
 
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Digite o CPF do funcionário" aria-label="Digite o CPF do funcionário" aria-describedby="basic-addon2" ng-model="cpf">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" ng-click="Consultar()" >Pesquisar</button>
-                </div>
-            </div>
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-12">
+                      <h1>Cadastro de funcionário</h1>
+                    </div>    
+                  </div>  
 
-            <div class="dropdown show">
-                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="AbrirFecharDropDown()">
-                    {{cargoSelecionadoNome}}
-                </a>            
-                <div ng-class="class" class="dropdown-menu" aria-labelledby="dropdownMenuLink" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">           
-                    <a ng-repeat="cargo in cargosList" class="dropdown-item" href="#" ng-click="SelecionarCargo(cargo.Id - 1)">{{cargo.Descricao}}</a>
-                </div>
-            </div>
+                <div class="row justify-content-md-center">
+                  <div class="col col-lg-12">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Digite o CPF do funcionário" aria-label="Digite o CPF do funcionário" aria-describedby="basic-addon2" ng-model="cpf">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" ng-click="Consultar()" >Pesquisar</button>
+                        </div>
+                    </div>
+                  </div>    
+                </div>  
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-12">
+                        <div class="row justify-content-md-center">      
+                            <div class="col col-lg-9">
+                                
+
+
+                                <form>
+                                    <fieldset disabled>
+                                        <div class="form-group">
+                                            <h4>Dados pessoais</h4>
+                                            <label for="Nome_Completo">Nome completo</label>
+                                            <input ng-model="requestObject.Nome_Completo" type="text" class="form-control" id="Nome_Completo" aria-describedby="Nome_Completo" placeholder="Nome completo">                                      
+                                            <label for="Nome_Social">Nome social</label>
+                                            <input ng-model="requestObject.Nome_Social"type="text" class="form-control" id="Nome_Social" aria-describedby="Nome_Social" placeholder="Nome social">
+                                            <label for="RG">RG</label>
+                                            <input ng-model="requestObject.RG" type="text" class="form-control" id="RG" aria-describedby="RG" placeholder="RG">
+                                            <label for="CPF">CPF</label>
+                                            <input ng-model="requestObject.CPF" type="text" class="form-control" id="CPF" aria-describedby="CPF" placeholder="CPF">
+                                            <label for="Data_Nascimento">Data nascimento</label>
+                                            <input ng-model="requestObject.Data_Nascimento" type="text" class="form-control" id="Data_Nascimento" aria-describedby="Data_Nascimento" placeholder="Data nascimento">                                      
+                                          </div>
+                                          <div class="form-group">
+                                              <h4>Cargo</h4>
+                                              <label for="Descricao">Descrição</label>
+                                              <input ng-model="requestObject.Descricao" type="text" class="form-control" id="Descricao" aria-describedby="Descricao" placeholder="Descrição">
+                                              <label for="Salario">Salário</label>
+                                              <input ng-model="requestObject.Salario" type="text" class="form-control" id="Salario" aria-describedby="Salario" placeholder="Salário">
+                                              <label for="Data_Inicio">Data início</label>
+                                              <input ng-model="requestObject.Data_Inicio" type="text" class="form-control" id="Data_Inicio" aria-describedby="Data_Inicio" placeholder="Data início">
+                                              <label for="Data_Encerramento">Data encerramento</label>
+                                              <input ng-model="requestObject.Data_Encerramento" type="text" class="form-control" id="Data_Encerramento" aria-describedby="Data_Encerramento" placeholder="Data encerramento">
+                                              <div class="dropdown show">
+                                                  <label for="Setor">Setor</label>
+                                                  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="Setor" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="AbrirFecharDropDown()">
+                                                      {{cargoSelecionadoNome}}
+                                                  </a>            
+                                                  <div ng-class="class" class="dropdown-menu" aria-labelledby="Setor" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">           
+                                                      <a ng-repeat="cargo in cargosList" class="dropdown-item" href="#" ng-click="SelecionarCargo(cargo.Id - 1)">{{cargo.Descricao}}</a>
+                                                  </div>
+                                              </div>
+                                            </div>
+                                            <div class="form-group">
+                                              <h4>Endereço</h4>
+                                              <label for="Logradouro">Logradouro</label>
+                                              <input ng-model="requestObject.Logradouro" type="text" class="form-control" id="Logradouro" aria-describedby="Logradouro" placeholder="Logradouro">
+                                              <label for="Numero">Número</label>
+                                              <input ng-model="requestObject.Numero" type="text" class="form-control" id="Numero" aria-describedby="Numero" placeholder="Número">
+                                              <label for="Cidade">Cidade</label>
+                                              <input ng-model="requestObject.Cidade" type="text" class="form-control" id="Cidade" aria-describedby="Cidade" placeholder="Cidade">
+                                              <label for="Cep">CEP</label>
+                                              <input ng-model="requestObject.Cep" type="text" class="form-control" id="Cep" aria-describedby="Cep" placeholder="CEP">
+                                              <label for="Complemento">Complemento</label>
+                                              <input ng-model="requestObject.Complemento" type="text" class="form-control" id="Complemento" aria-describedby="Complemento" placeholder="Complemento">
+                                              <label for="Estado">Estado</label>
+                                              <input ng-model="requestObject.Estado" type="text" class="form-control" id="Estado" aria-describedby="Estado" placeholder="Estado">
+                                            </div>
+                                            <div class="form-group">
+                                              <h4>Telefones</h4>
+                                              <label for="Ddd">DDD</label>
+                                              <input ng-model="requestObject.Ddd" type="text" class="form-control" id="Ddd" aria-describedby="Ddd" placeholder="DDD">                                        
+                                              <label for="Celular">Celular</label>
+                                              <input ng-model="requestObject.Celular" type="text" class="form-control" id="Celular" aria-describedby="Celular" placeholder="Celular">                                        
+                                              <label for="Residencial">Residencial</label>
+                                              <input ng-model="requestObject.Residencial" type="text" class="form-control" id="Residencial" aria-describedby="Residencial" placeholder="Residencial">                                        
+                                            </div>
+                                          <button class="btn btn-primary">Salvar</button>
+                                    </fieldset>
+
+                                    
+                                  </form>
+
+                            </div>    
+                            <div class="col col-lg-3">                                
+                                <div class="list-group">     
+                                    <div ng-repeat="responseObj in responseObjDadosPessoaisList" >                               
+                                        <button ng-class="{'active': responseObj.Id == funcionarioSelecionado}" type="button" class="list-group-item list-group-item-action" ng-click="MostrarDetalheFuncionario(responseObj)">{{responseObj.Nome_Completo}} </button>
+                                        <button type="button" class="btn btn-secondary" ng-click="ExcluirFuncionario(responseObj.CPF)"> <div class="trash"></div> </button>
+                                        <button type="button" class="btn btn-secondary"> <div class="edit"></div> </button>
+                                    </div>
+                                </div>    
+                              </div>    
+                          </div>                        
+                    </div>    
+                  </div>  
+              </div>
+
+
+              <div ng-show="isLoading">
+                <div class="modal-backdrop fade show" >                
+                    <div id="exampleModalLive" class="modal fade show" tabindex="-1" role="dialog" aria-labelledby="exampleModalLiveLabel" style="padding-right: 17px; display: block;" aria-modal="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">                        
+                            <div class="modal-body">
+                                <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                    <span class="sr-only"></span>
+                                  </div>
+                                <div>
+                                    <h3 class="modal-title" id="exampleModalLiveLabel">Carregando</h3>
+                                </div>                            
+                            </div>                        
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+              
 
         </div>    
     </body>
